@@ -13,15 +13,23 @@ type DataResponse struct {
 	Data   interface{} `json:"data,omitempty"`
 }
 
-// Error replies with error message and code.
-func Error(w http.ResponseWriter, message string, code int) {
+func writeMessage(w http.ResponseWriter, message string, code int) {
 	w.WriteHeader(code)
 	fmt.Fprintf(w, `{"code": %d, "message": "%s"}`, code, message)
 }
 
+func Error(w http.ResponseWriter, message string, code int) {
+	writeMessage(w, message, code)
+}
+
+// BadRequest replies with HTTP BadRequest code (400).
+func BadRequest(w http.ResponseWriter, message string) {
+	writeMessage(w, message, http.StatusBadRequest)
+}
+
 // Created replies with HTTP CREATED code (201).
 func Created(w http.ResponseWriter, message string) {
-	Error(w, message, http.StatusCreated)
+	writeMessage(w, message, http.StatusCreated)
 }
 
 // Data replies with code and data as a JSON document.
@@ -37,4 +45,17 @@ func Data(w http.ResponseWriter, data interface{}, code int) {
 		w.WriteHeader(code)
 		fmt.Fprintf(w, "%s", body)
 	}
+}
+
+func SetStandardAPIHeaders(w http.ResponseWriter) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Add("Access-Control-Allow-Headers", "Content-Length")
+	w.Header().Add("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Add("Access-Control-Allow-Headers", "Accept-Encoding")
+	w.Header().Add("Access-Control-Allow-Headers", "X-CSRF-Token")
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+	w.Header().Add("Access-Control-Allow-Methods", "PUT, DELETE")
 }
