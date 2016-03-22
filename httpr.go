@@ -22,14 +22,33 @@ func Error(w http.ResponseWriter, message string, code int) {
 	writeMessage(w, message, code)
 }
 
+func OK(w http.ResponseWriter) {
+	writeMessage(w, "OK", http.StatusOK)
+}
+
 // BadRequest replies with HTTP BadRequest code (400).
 func BadRequest(w http.ResponseWriter, message string) {
 	writeMessage(w, message, http.StatusBadRequest)
 }
 
+// NotFound replies with HTTP NOT FOUND code (404).
+func NotFound(w http.ResponseWriter) {
+	writeMessage(w, "Not found", http.StatusNotFound)
+}
+
+// ServerError replies with HTTP InternalServerError code (500).
+func ServerError(w http.ResponseWriter, message string) {
+	writeMessage(w, message, http.StatusInternalServerError)
+}
+
 // Created replies with HTTP CREATED code (201).
 func Created(w http.ResponseWriter, message string) {
 	writeMessage(w, message, http.StatusCreated)
+}
+
+// Accepted replies with HTTP ACCEPTED code (202).
+func Accepted(w http.ResponseWriter, message string) {
+	writeMessage(w, message, http.StatusAccepted)
 }
 
 // Data replies with code and data as a JSON document.
