@@ -51,6 +51,11 @@ func Accepted(w http.ResponseWriter, message string) {
 	writeMessage(w, message, http.StatusAccepted)
 }
 
+// NoContent replies with HTTP NO CONTENT code (204).
+func NoContent(w http.ResponseWriter) {
+	writeMessage(w, http.StatusText(http.StatusNoContent), http.StatusNoContent)
+}
+
 // Data replies with code and data as a JSON document.
 func Data(w http.ResponseWriter, data interface{}, code int) {
 	resp := DataResponse{
