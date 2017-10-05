@@ -1,4 +1,4 @@
-package httpr
+package httpresp
 
 import (
 	"encoding/json"
