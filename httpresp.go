@@ -15,7 +15,7 @@ type DataResponse struct {
 
 func writeMessage(w http.ResponseWriter, message string, code int) {
 	w.WriteHeader(code)
-	fmt.Fprintf(w, `{"code": %d, "message": "%s"}`, code, message)
+	fmt.Fprintf(w, `{"statusCode": %d, "message": "%s"}`, code, message)
 }
 
 func Error(w http.ResponseWriter, message string, code int) {
