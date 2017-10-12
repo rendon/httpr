@@ -32,8 +32,8 @@ func BadRequest(w http.ResponseWriter, message string) {
 }
 
 // NotFound replies with HTTP NOT FOUND code (404).
-func NotFound(w http.ResponseWriter) {
-	writeMessage(w, "Not found", http.StatusNotFound)
+func NotFound(w http.ResponseWriter, message string) {
+	writeMessage(w, message, http.StatusNotFound)
 }
 
 // ServerError replies with HTTP InternalServerError code (500).
