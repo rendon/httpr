@@ -8,18 +8,18 @@ import (
 
 // DataResponse describes a general JSON response.
 type DataResponse struct {
-	Status int         `json:"status"`
-	Errors []string    `json:"errors,omitempty"`
-	Data   interface{} `json:"data,omitempty"`
+	StatusCode int         `json:"statusCode"`
+	Errors     []string    `json:"errors,omitempty"`
+	Data       interface{} `json:"data,omitempty"`
 }
 
-func writeMessage(w http.ResponseWriter, message string, code int) {
-	w.WriteHeader(code)
-	fmt.Fprintf(w, `{"statusCode": %d, "message": "%s"}`, code, message)
+func writeMessage(w http.ResponseWriter, message string, statusCode int) {
+	w.WriteHeader(statusCode)
+	fmt.Fprintf(w, `{"statusCode": %d, "message": "%s"}`, statusCode, message)
 }
 
-func Error(w http.ResponseWriter, message string, code int) {
-	writeMessage(w, message, code)
+func Error(w http.ResponseWriter, message string, statusCode int) {
+	writeMessage(w, message, statusCode)
 }
 
 func OK(w http.ResponseWriter) {
@@ -57,16 +57,16 @@ func NoContent(w http.ResponseWriter) {
 }
 
 // Data replies with code and data as a JSON document.
-func Data(w http.ResponseWriter, data interface{}, code int) {
+func Data(w http.ResponseWriter, data interface{}, statusCode int) {
 	resp := DataResponse{
-		Status: code,
-		Data:   data,
+		StatusCode: statusCode,
+		Data:       data,
 	}
 	body, err := json.Marshal(resp)
 	if err != nil {
 		Error(w, "Failed to marshal response", http.StatusInternalServerError)
 	} else {
-		w.WriteHeader(code)
+		w.WriteHeader(statusCode)
 		fmt.Fprintf(w, "%s", body)
 	}
 }
